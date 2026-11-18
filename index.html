@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07111f">
+<title>UNX2 • English Every Day</title>
+<style>
+:root{--bg:#07111f;--panel:#101e31;--panel2:#14263c;--line:#263d58;--text:#eef7ff;--muted:#9bb0c7;--cyan:#00e5d4;--violet:#9b8cff;--gold:#ffc66d;--green:#67e6a5;--red:#ff8292}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0%,#142d49 0,transparent 35%),var(--bg);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:1px solid var(--line);background:#19314b;color:var(--text);padding:10px 14px;border-radius:12px}button:hover{border-color:var(--cyan)}button.primary{background:linear-gradient(110deg,#00a99e,#5365ce);border:0;font-weight:700}button.active{border-color:var(--cyan);color:var(--cyan);background:#123a43}button:disabled{opacity:.45;cursor:not-allowed}
+header{position:sticky;top:0;z-index:5;background:#07111feF;backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:12px 4vw;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:11px}.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--cyan),var(--violet));display:grid;place-items:center;color:#06111d;font-weight:900}.brand b{letter-spacing:.08em}.brand small{display:block;color:var(--muted);font-size:11px;letter-spacing:.12em}
+.status{font-size:11px;color:var(--green);border:1px solid #285e50;padding:5px 9px;border-radius:30px}
+.layout{display:grid;grid-template-columns:245px minmax(0,1fr);max-width:1440px;margin:auto;min-height:calc(100vh - 63px)}
+aside{padding:24px 16px;border-right:1px solid var(--line)}.navlabel{font-size:10px;letter-spacing:.15em;color:var(--muted);margin:18px 10px 8px}.nav{display:flex;flex-direction:column;gap:6px}.nav button{text-align:left;background:transparent;border-color:transparent;color:#c5d5e6}.nav button.active{background:#123a43;border-color:#1c5a60;color:var(--cyan)}
+main{padding:30px clamp(16px,3vw,42px) 60px;min-width:0}.hero{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:24px}.eyebrow{color:var(--cyan);font-size:11px;letter-spacing:.17em;font-weight:800}.hero h1{font-size:clamp(26px,4vw,42px);line-height:1.1;margin:8px 0}.hero p{color:var(--muted);max-width:650px;margin:0}.pill{border:1px solid var(--line);border-radius:30px;padding:7px 11px;color:var(--muted);font-size:12px;white-space:nowrap}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:15px}.card{background:linear-gradient(145deg,#12243a,#0d1a2b);border:1px solid var(--line);border-radius:18px;padding:19px;min-width:0}.span12{grid-column:span 12}.span8{grid-column:span 8}.span7{grid-column:span 7}.span6{grid-column:span 6}.span5{grid-column:span 5}.span4{grid-column:span 4}.card h2,.card h3{margin:0 0 12px}.muted{color:var(--muted)}.small{font-size:12px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}.field{display:flex;flex-direction:column;gap:6px;min-width:0;flex:1}.field label{font-size:12px;color:var(--muted)}input,select,textarea{width:100%;background:#091727;border:1px solid var(--line);color:var(--text);border-radius:11px;padding:11px 12px;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--cyan)}.result{background:#091727;border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:12px;min-height:66px}.bigword{font-size:26px;font-weight:800;color:var(--cyan)}.tag{display:inline-block;padding:4px 8px;border-radius:20px;background:#1b3550;color:#b7d5ee;font-size:11px;margin:3px}
+.stat{font-size:27px;font-weight:800}.statlabel{color:var(--muted);font-size:12px}.progress{height:7px;background:#23374d;border-radius:20px;overflow:hidden;margin-top:9px}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--violet));width:0}
+.scenario{border:1px solid var(--line);background:#0b1a2a;border-radius:14px;padding:15px;margin-top:12px}.scenario .speaker{color:var(--gold);font-size:11px;text-transform:uppercase;letter-spacing:.12em}.choice{display:block;width:100%;text-align:left;margin:8px 0;background:#132b43}.choice.correct{border-color:var(--green);color:var(--green)}.choice.wrong{border-color:var(--red);color:var(--red)}
+.chat{height:290px;overflow:auto;background:#081625;border:1px solid var(--line);border-radius:15px;padding:14px;display:flex;flex-direction:column;gap:10px}.bubble{max-width:85%;padding:10px 13px;border-radius:15px;background:#19324d;align-self:flex-start}.bubble.me{align-self:flex-end;background:#075d61}.bubble small{display:block;color:#b4c8d9;font-size:10px;margin-bottom:3px}.chatbar{display:flex;gap:8px;margin-top:10px}.chatbar input{flex:1}
+.camera{width:100%;max-height:280px;background:#02070d;border-radius:13px;object-fit:cover}.notice{border-left:3px solid var(--gold);padding:9px 12px;background:#292516;color:#ead8ae;border-radius:7px;font-size:12px}
+.hidden{display:none!important}.section{display:none}.section.active{display:block}.toast{position:fixed;bottom:20px;right:20px;background:#173b43;border:1px solid var(--cyan);padding:12px 16px;border-radius:12px;display:none;z-index:10}
+footer{color:var(--muted);font-size:11px;text-align:center;margin-top:30px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}aside{border-right:0;border-bottom:1px solid var(--line);padding:10px 12px;overflow:auto}.nav{flex-direction:row;width:max-content}.navlabel{display:none}.nav button{white-space:nowrap;padding:8px 11px}main{padding:22px 14px}.span8,.span7,.span6,.span5,.span4{grid-column:span 12}.hero{display:block}.hero .pill{display:inline-block;margin-top:14px}}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="logo">E3</div><div><b>ENGLISH EVERY DAY</b><small>UNX2 LANGUAGE GATEWAY</small></div></div><div class="status">● INTERFACE LOCALE • FR</div></header>
+<div class="layout">
+<aside>
+<div class="navlabel">APPRENDRE</div><nav class="nav">
+<button class="active" data-page="home">⌂ Tableau de bord</button>
+<button data-page="dict">▤ Dictionnaires</button>
+<button data-page="learn">◎ Mises en situation</button>
+<button data-page="practice">✦ Pratique conversation</button>
+</nav>
+<div class="navlabel">TRADUIRE</div><nav class="nav">
+<button data-page="voice">◉ Traducteur vocal</button>
+<button data-page="visual">▣ Traducteur visuel</button>
+<button data-page="chat">▤ Conversation</button>
+</nav>
+<div class="navlabel">MON ESPACE</div><nav class="nav">
+<button data-page="progress">↗ Progression & favoris</button>
+</nav>
+<div class="notice" style="margin-top:20px">Prototype connecté à l'interface UNX2. Les services serveur et les clés API restent à configurer.</div>
+</aside>
+<main>
+<section id="home" class="section active">
+<div class="hero"><div><div class="eyebrow">TON COMPAGNON LINGUISTIQUE</div><h1>Les langues ouvrent<br>toutes les portes.</h1><p>Apprends, pratique et traduis en français, anglais et espagnol. Une phrase à la fois.</p></div><div class="pill">FR ↔ EN ↔ ES</div></div>
+<div class="grid">
+<div class="card span4"><div class="stat" id="dayCount">1</div><div class="statlabel">Phrase du jour</div><div class="bigword" style="margin-top:8px">Good morning!</div><div>Bonjour !</div><button class="primary" style="margin-top:12px" onclick="speak('Good morning','en-US')">▶ Écouter</button></div>
+<div class="card span4"><div class="stat" id="learnedCount">0</div><div class="statlabel">Phrases maîtrisées</div><div class="progress"><i id="progressBar"></i></div><p class="small muted">Chaque exercice terminé fait progresser ton parcours.</p></div>
+<div class="card span4"><div class="stat" id="favCount">0</div><div class="statlabel">Favoris sauvegardés</div><p class="muted small">Retrouve tes mots et expressions utiles.</p><button onclick="showPage('progress')">Voir mes favoris →</button></div>
+<div class="card span12"><h2>Choisis ton prochain voyage linguistique</h2><div class="grid">
+<div class="card span4"><h3>🏪 Dépanneur</h3><p class="muted small">Saluer, demander un produit, payer.</p><button onclick="selectScenario('depanneur');showPage('learn')">Commencer</button></div>
+<div class="card span4"><h3>🏨 Hôtel</h3><p class="muted small">Réserver, s'enregistrer, demander de l'aide.</p><button onclick="selectScenario('hotel');showPage('learn')">Commencer</button></div>
+<div class="card span4"><h3>🍽️ Restaurant</h3><p class="muted small">Commander, poser une question, payer.</p><button onclick="selectScenario('restaurant');showPage('learn')">Commencer</button></div>
+</div></div>
+</div>
+</section>
+
+<section id="dict" class="section">
+<div class="hero"><div><div class="eyebrow">OUTIL DE RÉFÉRENCE</div><h1>Dictionnaires trilingues</h1><p>Recherche un mot ou une expression dans notre lexique de démarrage.</p></div></div>
+<div class="card"><div class="row">
+<div class="field"><label>Langue du mot recherché</label><select id="dictFrom"><option value="fr">Français</option><option value="en">Anglais</option><option value="es">Espagnol</option></select></div>
+<div class="field"><label>Recherche</label><input id="dictQuery" placeholder="Ex. bonjour, hello, hotel..."></div><button class="primary" onclick="searchDict()">Rechercher</button>
+</div><div id="dictResults" class="result muted">Les résultats apparaîtront ici.</div></div>
+<div class="card" style="margin-top:15px"><h3>Catégories populaires</h3><div id="categories"></div></div>
+</section>
+
+<section id="learn" class="section">
+<div class="hero"><div><div class="eyebrow">APPRENTISSAGE PAR IMMERSION</div><h1>Mises en situation</h1><p>Choisis un environnement, lis la scène et sélectionne la réponse la plus naturelle.</p></div></div>
+<div class="card"><div class="row">
+<div class="field"><label>Environnement</label><select id="scenarioSelect" onchange="selectScenario(this.value)"><option value="depanneur">Dépanneur</option><option value="hotel">Hôtel</option><option value="restaurant">Restaurant</option><option value="airport">Aéroport</option><option value="shopping">Magasin</option><option value="taxi">Taxi / transport</option></select></div>
+<div class="field"><label>Langue à pratiquer</label><select id="scenarioLang"><option value="en">Anglais</option><option value="es">Espagnol</option></select></div>
+</div><div id="scenarioCard" class="scenario"></div></div>
+</section>
+
+<section id="practice" class="section">
+<div class="hero"><div><div class="eyebrow">ENTRAÎNEMENT GUIDÉ</div><h1>Pratique conversation</h1><p>Réponds à une situation comme si tu étais sur place. L'application te donne une rétroaction.</p></div></div>
+<div class="card"><div class="row between"><h3>Mini-défi du jour</h3><span class="tag">Débutant</span></div><p id="practiceQuestion">Tu entres dans un café. Comment demandes-tu un café en anglais ?</p><input id="practiceAnswer" placeholder="Écris ta réponse en anglais..."><div class="row" style="margin-top:10px"><button class="primary" onclick="checkPractice()">Vérifier ma réponse</button><button onclick="speak('I would like a coffee, please','en-US')">▶ Écouter la réponse</button></div><div id="practiceFeedback" class="result muted">Écris ta réponse puis vérifie.</div></div>
+</section>
+
+<section id="voice" class="section">
+<div class="hero"><div><div class="eyebrow">TRADUCTION PAR LA VOIX</div><h1>Traducteur vocal</h1><p>Parle dans ton téléphone. Le navigateur peut reconnaître ta voix, puis afficher la traduction disponible dans le lexique local.</p></div></div>
+<div class="card"><div class="row">
+<div class="field"><label>Je parle</label><select id="voiceFrom"><option value="fr-FR">Français</option><option value="en-US">Anglais</option><option value="es-ES">Espagnol</option></select></div>
+<div class="field"><label>Je traduis vers</label><select id="voiceTo"><option value="en">Anglais</option><option value="fr">Français</option><option value="es">Espagnol</option></select></div></div>
+<div class="result"><div class="small muted">Texte reconnu</div><div id="recognized" style="font-size:19px">En attente de ta voix…</div><div class="small muted" style="margin-top:12px">Traduction disponible</div><div id="voiceTranslation" class="bigword" style="font-size:21px">—</div></div>
+<div class="row" style="margin-top:14px"><button class="primary" id="micStart" onclick="startListening()">🎙 Démarrer le micro</button><button id="micStop" onclick="stopListening()" disabled>Arrêter</button><button onclick="speakCurrentTranslation()">▶ Écouter la traduction</button></div>
+<p class="small muted">La reconnaissance vocale dépend du navigateur et de la connexion. La traduction de ce prototype utilise un lexique de démonstration; une API de traduction sera nécessaire pour une traduction générale fiable.</p></div>
+</section>
+
+<section id="visual" class="section">
+<div class="hero"><div><div class="eyebrow">CAMÉRA & LECTURE DE TEXTE</div><h1>Traducteur visuel</h1><p>Filme ou photographie un menu, une affiche ou un panneau. Le prototype peut capturer l'image et tenter d'en extraire le texte.</p></div></div>
+<div class="grid"><div class="card span7"><video id="camera" class="camera" autoplay playsinline muted></video><div class="row" style="margin-top:12px"><button class="primary" onclick="startCamera()">📷 Activer la caméra</button><button onclick="captureImage()">Capturer</button><button onclick="stopCamera()">Arrêter</button></div><canvas id="snapshot" class="hidden"></canvas></div>
+<div class="card span5"><label class="small muted">Texte détecté / à traduire</label><textarea id="ocrText" rows="5" placeholder="Le texte extrait apparaîtra ici. Tu peux aussi le saisir."></textarea><div class="row" style="margin-top:10px"><button class="primary" onclick="translateVisual()">Traduire le texte</button><button onclick="runOCR()">Lire l'image (OCR)</button></div><div id="visualResult" class="result muted">Traduction à afficher ici.</div></div></div>
+<p class="small muted">L'OCR utilise Tesseract.js chargé depuis un CDN au moment de la demande. La traduction reste limitée au lexique embarqué tant qu'un service externe n'est pas connecté.</p>
+</section>
+
+<section id="chat" class="section">
+<div class="hero"><div><div class="eyebrow">MODE MESSAGERIE</div><h1>Conversation bilingue</h1><p>Écris un message, choisis les langues et échange dans des bulles de conversation.</p></div></div>
+<div class="card"><div class="row"><div class="field"><label>Ta langue</label><select id="chatFrom"><option value="fr">Français</option><option value="en">Anglais</option><option value="es">Espagnol</option></select></div><div class="field"><label>Langue de l'autre personne</label><select id="chatTo"><option value="en">Anglais</option><option value="fr">Français</option><option value="es">Espagnol</option></select></div></div>
+<div class="chat" id="chatLog"><div class="bubble"><small>ASSISTANT • ENGLISH EVERY DAY</small>Bonjour ! Hello! ¡Hola! Écris un message pour commencer.</div></div>
+<div class="chatbar"><input id="chatInput" placeholder="Écris ton message..."><button class="primary" onclick="sendChat()">Envoyer ➤</button><button title="Parler" onclick="chatMic()">🎙</button></div>
+</div>
+</section>
+
+<section id="progress" class="section">
+<div class="hero"><div><div class="eyebrow">TON PARCOURS</div><h1>Progression & favoris</h1><p>Retrouve les mots sauvegardés et tes dernières recherches sur cet appareil.</p></div></div>
+<div class="grid"><div class="card span6"><h3>Mes favoris</h3><div id="favoritesList" class="muted">Aucun favori pour le moment.</div></div><div class="card span6"><h3>Historique récent</h3><div id="historyList" class="muted">Aucune recherche pour le moment.</div></div></div>
+</section>
+<footer>ENGLISH EVERY DAY • UNX2 LANGUAGE GATEWAY • Prototype local v0.1<br>Les traductions de démonstration ne remplacent pas un service professionnel de traduction.</footer>
+</main></div>
+<div class="toast" id="toast"></div>
+<script>
+const lexicon=[
+{fr:"bonjour",en:"hello",es:"hola",cat:"Salutations",pron:"hé-lo"},
+{fr:"bonsoir",en:"good evening",es:"buenas noches",cat:"Salutations"},
+{fr:"au revoir",en:"goodbye",es:"adiós",cat:"Salutations"},
+{fr:"merci",en:"thank you",es:"gracias",cat:"Politesse"},
+{fr:"s'il vous plaît",en:"please",es:"por favor",cat:"Politesse"},
+{fr:"oui",en:"yes",es:"sí",cat:"Essentiels"},
+{fr:"non",en:"no",es:"no",cat:"Essentiels"},
+{fr:"je ne comprends pas",en:"I don't understand",es:"no entiendo",cat:"Essentiels"},
+{fr:"parlez-vous français",en:"do you speak French",es:"¿habla francés?",cat:"Essentiels"},
+{fr:"pouvez-vous répéter",en:"can you repeat that",es:"¿puede repetir?",cat:"Essentiels"},
+{fr:"combien ça coûte",en:"how much is it",es:"¿cuánto cuesta?",cat:"Magasin"},
+{fr:"je voudrais un café",en:"I'd like a coffee",es:"quisiera un café",cat:"Dépanneur"},
+{fr:"un verre d'eau",en:"a glass of water",es:"un vaso de agua",cat:"Restaurant"},
+{fr:"où sont les toilettes",en:"where is the bathroom",es:"¿dónde está el baño?",cat:"Essentiels"},
+{fr:"j'ai une réservation",en:"I have a reservation",es:"tengo una reserva",cat:"Hôtel"},
+{fr:"une table pour deux",en:"a table for two",es:"una mesa para dos",cat:"Restaurant"},
+{fr:"le menu",en:"the menu",es:"el menú",cat:"Restaurant"},
+{fr:"l'addition",en:"the bill",es:"la cuenta",cat:"Restaurant"},
+{fr:"aéroport",en:"airport",es:"aeropuerto",cat:"Voyage"},
+{fr:"taxi",en:"taxi",es:"taxi",cat:"Voyage"},
+{fr:"chambre",en:"room",es:"habitación",cat:"Hôtel"},
+{fr:"eau",en:"water",es:"agua",cat:"Essentiels"},
+{fr:"café",en:"coffee",es:"café",cat:"Dépanneur"},
+{fr:"je vais bien merci",en:"I'm fine, thank you",es:"estoy bien, gracias",cat:"Salutations"},
+{fr:"bonne journée",en:"have a nice day",es:"que tenga un buen día",cat:"Politesse"},
+{fr:"j'ai besoin d'aide",en:"I need help",es:"necesito ayuda",cat:"Urgence"},
+{fr:"où est la gare",en:"where is the station",es:"¿dónde está la estación?",cat:"Voyage"},
+{fr:"sans oignons",en:"no onions",es:"sin cebolla",cat:"Restaurant"},
+{fr:"c'est délicieux",en:"it's delicious",es:"está delicioso",cat:"Restaurant"},
+{fr:"je cherche un taxi",en:"I'm looking for a taxi",es:"busco un taxi",cat:"Voyage"}
+];
+const scenarios={
+depanneur:{title:"Au dépanneur",en:"Hello! How can I help you?",es:"¡Hola! ¿En qué puedo ayudarle?",fr:"Bonjour ! Comment puis-je vous aider ?",prompt:"Tu entres dans un dépanneur. La caissière te salue et te demande ce que tu désires.",answers:[["I'd like a coffee, please.","Je voudrais un café, s'il vous plaît.","Quisiera un café, por favor.",true],["Where is the airport?","Où est l'aéroport ?","¿Dónde está el aeropuerto?",false],["I have a reservation.","J'ai une réservation.","Tengo una reserva.",false]]},
+hotel:{title:"À l'hôtel",en:"Good evening! Do you have a reservation?",es:"¡Buenas noches! ¿Tiene una reserva?",fr:"Bonsoir ! Avez-vous une réservation ?",prompt:"Tu arrives à la réception de l'hôtel. L'employé te demande si tu as réservé.",answers:[["I have a reservation.","J'ai une réservation.","Tengo una reserva.",true],["I'd like a coffee.","Je voudrais un café.","Quisiera un café.",false],["The bill, please.","L'addition, s'il vous plaît.","La cuenta, por favor.",false]]},
+restaurant:{title:"Au restaurant",en:"Good evening! How many people?",es:"¡Buenas noches! ¿Para cuántas personas?",fr:"Bonsoir ! Pour combien de personnes ?",prompt:"Tu arrives au restaurant avec une autre personne. Que demandes-tu ?",answers:[["A table for two, please.","Une table pour deux, s'il vous plaît.","Una mesa para dos, por favor.",true],["I need a towel.","J'ai besoin d'une serviette.","Necesito una toalla.",false],["Where is the airport?","Où est l'aéroport ?","¿Dónde está el aeropuerto?",false]]},
+airport:{title:"À l'aéroport",en:"Can I help you find something?",es:"¿Puedo ayudarle a encontrar algo?",fr:"Puis-je vous aider à trouver quelque chose ?",prompt:"Tu cherches ta porte d'embarquement et un employé te propose son aide. Que lui demandes-tu ?",answers:[["Where is gate 12?","Où est la porte 12 ?","¿Dónde está la puerta 12?",true],["I have a reservation.","J'ai une réservation.","Tengo una reserva.",false],["The bill, please.","L'addition, s'il vous plaît.","La cuenta, por favor.",false]]},
+shopping:{title:"Au magasin",en:"Hello! Are you looking for something in particular?",es:"¡Hola! ¿Busca algo en particular?",fr:"Bonjour ! Cherchez-vous quelque chose en particulier ?",prompt:"Tu entres dans un magasin de vêtements. Une vendeuse te propose son aide. Tu cherches une chemise.",answers:[["I'm looking for a shirt.","Je cherche une chemise.","Busco una camisa.",true],["Where is the bathroom?","Où sont les toilettes ?","¿Dónde está el baño?",false],["A table for two, please.","Une table pour deux, s'il vous plaît.","Una mesa para dos, por favor.",false]]},
+taxi:{title:"Taxi / transport",en:"Hello! Where are you going?",es:"¡Hola! ¿A dónde va?",fr:"Bonjour ! Où allez-vous ?",prompt:"Tu montes dans un taxi. Le chauffeur te demande ta destination : tu vas à l'aéroport.",answers:[["To the airport, please.","À l'aéroport, s'il vous plaît.","Al aeropuerto, por favor.",true],["I have a reservation.","J'ai une réservation.","Tengo una reserva.",false],["It's delicious!","C'est délicieux !","¡Está delicioso!",false]]}
+};
+
+/* ---------- Utilitaires ---------- */
+const $=id=>document.getElementById(id);
+function norm(s){return (s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[\u2019\u2018]/g,"'").replace(/[^a-z0-9' ]+/g," ").replace(/\s+/g," ").trim();}
+function favKey(e){return e.fr+"|"+e.en;}
+function loadJSON(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}}
+function saveJSON(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+
+/* ---------- État persistant ---------- */
+const LS={fav:"eed_favorites",hist:"eed_history",learned:"eed_learned"};
+let favorites=loadJSON(LS.fav,[]);
+let historyList=loadJSON(LS.hist,[]);
+let learned=parseInt(localStorage.getItem(LS.learned)||"0",10)||0;
+let currentScenario="depanneur";
+let currentTranslation="";
+let currentTranslationLang="en-US";
+let mediaStream=null;
+let capturedImage=false;
+let recognition=null;
+
+/* ---------- Toast ---------- */
+let toastTimer=null;
+function toast(msg){const t=$("toast");t.textContent=msg;t.style.display="block";clearTimeout(toastTimer);toastTimer=setTimeout(()=>{t.style.display="none";},2500);}
+
+/* ---------- Navigation ---------- */
+function showPage(id){
+  document.querySelectorAll(".section").forEach(s=>s.classList.toggle("active",s.id===id));
+  document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.getAttribute("data-page")===id));
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* ---------- Lecture vocale ---------- */
+function speak(text,lang){
+  if(!("speechSynthesis" in window)){toast("La lecture vocale n'est pas disponible dans ce navigateur.");return;}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang=lang||"en-US";
+  u.rate=0.92;
+  speechSynthesis.speak(u);
+}
+
+/* ---------- Dictionnaire ---------- */
+let lastDictEntries=[];
+function entryRow(entry){
+  const wrap=document.createElement("div");
+  wrap.style.padding="8px 0";
+  wrap.style.borderBottom="1px solid var(--line)";
+  const line=document.createElement("div");
+  const b=document.createElement("b"); b.textContent=entry.fr;
+  const en=document.createElement("span"); en.className="bigword"; en.style.fontSize="20px"; en.textContent=" "+entry.en;
+  const es=document.createElement("span"); es.className="muted"; es.textContent=" • "+entry.es;
+  line.append(b,en,es);
+  wrap.appendChild(line);
+  if(entry.pron){
+    const p=document.createElement("div"); p.className="small muted";
+    p.textContent="Prononciation : "+entry.pron;
+    wrap.appendChild(p);
+  }
+  const row=document.createElement("div"); row.className="row"; row.style.marginTop="6px";
+  const cat=document.createElement("span"); cat.className="tag"; cat.textContent=entry.cat; row.appendChild(cat);
+  const listen=document.createElement("button"); listen.textContent="▶ Écouter (EN)";
+  listen.onclick=()=>speak(entry.en,"en-US"); row.appendChild(listen);
+  const fav=document.createElement("button");
+  fav.textContent=favorites.includes(favKey(entry))?"★ Favori":"☆ Favori";
+  fav.onclick=()=>{toggleFavorite(entry); fav.textContent=favorites.includes(favKey(entry))?"★ Favori":"☆ Favori";};
+  row.appendChild(fav);
+  wrap.appendChild(row);
+  return wrap;
+}
+function renderDictEntries(entries){
+  const box=$("dictResults");
+  box.innerHTML="";
+  if(!entries.length){
+    box.classList.add("muted");
+    box.textContent="Aucun résultat dans le lexique de démarrage. Essaie « café », « bonjour » ou « hôtel ».";
+    return;
+  }
+  box.classList.remove("muted");
+  entries.forEach(e=>box.appendChild(entryRow(e)));
+}
+function searchDict(){
+  const from=$("dictFrom").value;
+  const raw=$("dictQuery").value.trim();
+  const q=norm(raw);
+  if(!q){toast("Écris un mot ou une expression à rechercher.");return;}
+  const hits=lexicon.filter(e=>norm(e[from]).includes(q));
+  lastDictEntries=hits;
+  renderDictEntries(hits);
+  addHistory(raw);
+  if(hits.length) toast(hits.length+" résultat(s) trouvé(s).");
+  else toast("Aucun résultat dans le lexique.");
+}
+function renderCategories(){
+  const cats=[...new Set(lexicon.map(e=>e.cat))];
+  const box=$("categories");
+  box.innerHTML="";
+  cats.forEach(c=>{
+    const b=document.createElement("button");
+    b.className="tag";
+    b.textContent=c+" ("+lexicon.filter(e=>e.cat===c).length+")";
+    b.onclick=()=>{
+      const entries=lexicon.filter(e=>e.cat===c);
+      lastDictEntries=entries;
+      renderDictEntries(entries);
+      addHistory("Catégorie : "+c);
+    };
+    box.appendChild(b);
+  });
+}
+
+/* ---------- Favoris, historique, progression ---------- */
+function toggleFavorite(entry){
+  const key=favKey(entry);
+  if(favorites.includes(key)){favorites=favorites.filter(k=>k!==key);toast("Retiré des favoris.");}
+  else{favorites.push(key);toast("Ajouté aux favoris ★");}
+  saveJSON(LS.fav,favorites);
+  updateStats();
+  renderFavorites();
+}
+function renderFavorites(){
+  const box=$("favoritesList");
+  box.innerHTML="";
+  if(!favorites.length){box.className="muted";box.textContent="Aucun favori pour le moment.";return;}
+  box.className="";
+  favorites.forEach(key=>{
+    const e=lexicon.find(x=>favKey(x)===key);
+    if(!e) return;
+    const row=document.createElement("div"); row.className="row"; row.style.margin="6px 0";
+    const txt=document.createElement("span"); txt.textContent=e.fr+" → "+e.en+" • "+e.es;
+    const listen=document.createElement("button"); listen.textContent="▶"; listen.title="Écouter en anglais";
+    listen.onclick=()=>speak(e.en,"en-US");
+    const del=document.createElement("button"); del.textContent="✕ Retirer";
+    del.onclick=()=>toggleFavorite(e);
+    row.append(txt,listen,del);
+    box.appendChild(row);
+  });
+}
+function addHistory(text){
+  if(!text) return;
+  historyList=[text,...historyList.filter(h=>h!==text)].slice(0,12);
+  saveJSON(LS.hist,historyList);
+  renderHistory();
+}
+function renderHistory(){
+  const box=$("historyList");
+  box.innerHTML="";
+  if(!historyList.length){box.className="muted";box.textContent="Aucune recherche pour le moment.";return;}
+  box.className="";
+  historyList.forEach(h=>{
+    const d=document.createElement("div");
+    d.textContent="• "+h;
+    d.style.margin="4px 0";
+    box.appendChild(d);
+  });
+}
+function updateStats(){
+  $("learnedCount").textContent=learned;
+  $("favCount").textContent=favorites.length;
+  const pct=Math.min(100,Math.round(learned/lexicon.length*100));
+  $("progressBar").style.width=pct+"%";
+}
+function addLearned(n){
+  learned+=n;
+  try{localStorage.setItem(LS.learned,String(learned));}catch(e){}
+  updateStats();
+}
+function dayOfYear(){
+  const now=new Date();
+  const start=new Date(now.getFullYear(),0,0);
+  return Math.floor((now-start)/86400000);
+}
+
+/* ---------- Mises en situation ---------- */
+function selectScenario(key){
+  if(!scenarios[key]) key="depanneur";
+  currentScenario=key;
+  $("scenarioSelect").value=key;
+  renderScenario();
+}
+function renderScenario(){
+  const sc=scenarios[currentScenario];
+  const lang=$("scenarioLang").value;
+  const langName=lang==="en"?"Anglais":"Espagnol";
+  const speakLang=lang==="en"?"en-US":"es-ES";
+  const card=$("scenarioCard");
+  card.innerHTML="";
+  const title=document.createElement("h3"); title.textContent=sc.title; card.appendChild(title);
+  const sp=document.createElement("div"); sp.className="speaker"; sp.textContent="L'interlocuteur • "+langName; card.appendChild(sp);
+  const line=document.createElement("div"); line.style.fontSize="19px"; line.style.margin="4px 0"; line.textContent=sc[lang]; card.appendChild(line);
+  const frLine=document.createElement("div"); frLine.className="small muted"; frLine.textContent="En français : "+sc.fr; card.appendChild(frLine);
+  const row=document.createElement("div"); row.className="row"; row.style.margin="8px 0";
+  const listen=document.createElement("button"); listen.textContent="▶ Écouter la réplique";
+  listen.onclick=()=>speak(sc[lang],speakLang);
+  row.appendChild(listen);
+  card.appendChild(row);
+  const prompt=document.createElement("p"); prompt.textContent=sc.prompt; card.appendChild(prompt);
+  const fb=document.createElement("div"); fb.className="result muted"; fb.textContent="Choisis la réponse la plus naturelle."; card.appendChild(fb);
+  let answered=false;
+  sc.answers.forEach(a=>{
+    const btn=document.createElement("button");
+    btn.className="choice";
+    btn.textContent=lang==="en"?a[0]:a[2];
+    btn.onclick=()=>{
+      if(a[3]){
+        btn.classList.add("correct");
+        if(!answered){answered=true;addLearned(1);toast("Bonne réponse ! +1 phrase maîtrisée");}
+        fb.classList.remove("muted");
+        fb.innerHTML="";
+        const good=document.createElement("div"); good.textContent="✅ Bonne réponse !";
+        const trad=document.createElement("div"); trad.textContent="En français : "+a[1];
+        const rep=document.createElement("button"); rep.textContent="▶ Écouter la bonne réponse"; rep.style.marginTop="8px";
+        rep.onclick=()=>speak(lang==="en"?a[0]:a[2],speakLang);
+        fb.append(good,trad,rep);
+      }else{
+        btn.classList.add("wrong");
+        btn.disabled=true;
+        fb.classList.remove("muted");
+        fb.textContent="❌ Pas tout à fait — en français, celle-ci veut dire : « "+a[1]+" ». Essaie une autre réponse.";
+      }
+    };
+    card.appendChild(btn);
+  });
+}
+
+/* ---------- Pratique conversation ---------- */
+function checkPractice(){
+  const input=norm($("practiceAnswer").value);
+  const accepted=["i'd like a coffee","i would like a coffee","i'd like a coffee please","i would like a coffee please","id like a coffee","id like a coffee please"];
+  const fb=$("practiceFeedback");
+  fb.classList.remove("muted");
+  if(!input){fb.textContent="Écris d'abord ta réponse en anglais.";return;}
+  if(accepted.includes(input)){
+    fb.textContent="✅ Bravo ! « I'd like a coffee, please. » — Je voudrais un café, s'il vous plaît. +1 phrase maîtrisée.";
+    addLearned(1);
+  }else{
+    fb.textContent="❌ Pas tout à fait. La réponse attendue : « I'd like a coffee, please. » Écoute-la et réessaie !";
+  }
+}
+
+/* ---------- Traducteur vocal ---------- */
+function findInLexicon(text,from){
+  const q=norm(text);
+  if(!q) return null;
+  return lexicon.find(e=>norm(e[from])===q)||null;
+}
+function translateText(text,from,to){
+  const e=findInLexicon(text,from);
+  return e?e[to]:null;
+}
+function startListening(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){
+    $("recognized").textContent="La reconnaissance vocale n'est pas disponible dans ce navigateur (essaie Chrome sur Android ou sur ordinateur).";
+    return;
+  }
+  try{if(recognition) recognition.stop();}catch(e){}
+  recognition=new SR();
+  recognition.lang=$("voiceFrom").value;
+  recognition.interimResults=false;
+  recognition.maxAlternatives=1;
+  recognition.onresult=ev=>{
+    const text=ev.results[0][0].transcript;
+    $("recognized").textContent=text;
+    translateRecognized(text);
+  };
+  recognition.onerror=ev=>{
+    $("recognized").textContent="Le micro n'a pas capté de phrase ("+ev.error+"). Réessaie.";
+    stopListeningUI();
+  };
+  recognition.onend=()=>stopListeningUI();
+  $("micStart").disabled=true;
+  $("micStop").disabled=false;
+  $("recognized").textContent="🎙 J'écoute… parle maintenant.";
+  try{recognition.start();}catch(e){stopListeningUI();}
+}
+function stopListeningUI(){
+  $("micStart").disabled=false;
+  $("micStop").disabled=true;
+}
+function stopListening(){
+  if(recognition){try{recognition.stop();}catch(e){}}
+  stopListeningUI();
+}
+function translateRecognized(text){
+  const from=$("voiceFrom").value.slice(0,2);
+  const to=$("voiceTo").value;
+  const t=translateText(text,from,to);
+  if(t){
+    currentTranslation=t;
+    currentTranslationLang=to==="en"?"en-US":to==="es"?"es-ES":"fr-FR";
+    $("voiceTranslation").textContent=t;
+  }else{
+    currentTranslation="";
+    $("voiceTranslation").textContent="Phrase hors du lexique de démarrage — essaie « bonjour », « je voudrais un café » ou « combien ça coûte ».";
+  }
+}
+function speakCurrentTranslation(){
+  if(currentTranslation) speak(currentTranslation,currentTranslationLang);
+  else toast("Aucune traduction à écouter pour le moment.");
+}
+
+/* ---------- Traducteur visuel ---------- */
+async function startCamera(){
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+    toast("La caméra n'est pas disponible dans ce navigateur.");
+    return;
+  }
+  try{
+    mediaStream=await navigator.mediaDevices.getUserMedia({video:true});
+    $("camera").srcObject=mediaStream;
+    toast("Caméra activée 📷");
+  }catch(e){
+    toast("Caméra refusée ou indisponible ("+e.name+").");
+  }
+}
+function captureImage(){
+  const video=$("camera");
+  if(!mediaStream||!video.videoWidth){toast("Active d'abord la caméra.");return;}
+  const c=$("snapshot");
+  c.width=video.videoWidth;
+  c.height=video.videoHeight;
+  c.getContext("2d").drawImage(video,0,0);
+  capturedImage=true;
+  toast("Image capturée 📷 Tu peux lancer la lecture (OCR).");
+}
+function stopCamera(){
+  if(mediaStream){mediaStream.getTracks().forEach(t=>t.stop());mediaStream=null;}
+  $("camera").srcObject=null;
+}
+let tesseractLoading=null;
+function loadTesseract(){
+  if(window.Tesseract) return Promise.resolve();
+  if(!tesseractLoading){
+    tesseractLoading=new Promise((res,rej)=>{
+      const s=document.createElement("script");
+      s.src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";
+      s.onload=res;
+      s.onerror=()=>rej(new Error("le CDN Tesseract.js est inaccessible"));
+      document.head.appendChild(s);
+    });
+  }
+  return tesseractLoading;
+}
+async function runOCR(){
+  const out=$("visualResult");
+  out.classList.remove("muted");
+  if(!capturedImage){
+    out.textContent="Capture d'abord une image avec la caméra, puis lance la lecture.";
+    return;
+  }
+  out.textContent="Chargement du moteur OCR (connexion Internet requise)…";
+  try{
+    await loadTesseract();
+    out.textContent="Lecture de l'image en cours…";
+    const res=await Tesseract.recognize($("snapshot"),"eng+fra");
+    const text=(res.data.text||"").trim();
+    if(text){
+      $("ocrText").value=text;
+      out.textContent="Texte détecté ✓ Tu peux maintenant le traduire.";
+    }else{
+      out.textContent="Aucun texte n'a pu être lu dans cette image. Essaie une image plus nette, bien éclairée, texte bien droit.";
+    }
+  }catch(e){
+    out.textContent="L'OCR a échoué ("+e.message+"). Vérifie ta connexion Internet, ou saisis le texte à la main dans la zone de texte.";
+  }
+}
+function translateVisual(){
+  const raw=$("ocrText").value||"";
+  const out=$("visualResult");
+  out.classList.remove("muted");
+  out.innerHTML="";
+  const lines=raw.split(/\n+/).map(s=>s.trim()).filter(Boolean);
+  if(!lines.length){out.textContent="Saisis ou détecte d'abord un texte à traduire.";return;}
+  let found=0;
+  lines.forEach(line=>{
+    let hit=null,hitFrom=null;
+    for(const L of ["fr","en","es"]){
+      const e=findInLexicon(line,L);
+      if(e){hit=e;hitFrom=L;break;}
+    }
+    const d=document.createElement("div");
+    d.style.margin="6px 0";
+    if(hit){
+      found++;
+      const targets=["fr","en","es"].filter(L=>L!==hitFrom);
+      d.textContent="« "+line+" » → "+targets.map(L=>hit[L]).join(" • ");
+    }else{
+      d.textContent="« "+line+" » → cette phrase n'est pas dans le lexique de démarrage (une traduction complète demandera un service de traduction).";
+    }
+    out.appendChild(d);
+  });
+  if(!found) toast("Aucune phrase reconnue dans le lexique.");
+}
+
+/* ---------- Conversation ---------- */
+function addBubble(text,who,label){
+  const log=$("chatLog");
+  const b=document.createElement("div");
+  b.className="bubble"+(who==="me"?" me":"");
+  const s=document.createElement("small"); s.textContent=label; b.appendChild(s);
+  const t=document.createElement("div"); t.textContent=text; b.appendChild(t);
+  log.appendChild(b);
+  log.scrollTop=log.scrollHeight;
+}
+function sendChat(){
+  const input=$("chatInput");
+  const text=input.value.trim();
+  if(!text) return;
+  const from=$("chatFrom").value;
+  const to=$("chatTo").value;
+  const langNames={fr:"FRANÇAIS",en:"ENGLISH",es:"ESPAÑOL"};
+  addBubble(text,"me","TOI • "+langNames[from]);
+  input.value="";
+  const t=translateText(text,from,to);
+  if(t){
+    addBubble(t,"assistant","ASSISTANT • "+langNames[to]);
+  }else{
+    const sample=lexicon[Math.floor(Math.random()*lexicon.length)];
+    addBubble("Je n'ai pas encore cette phrase dans mon lexique de démarrage. En attendant, en voici une utile : « "+sample[from]+" » → « "+sample[to]+" » (catégorie : "+sample.cat+"). Continue, tu progresses à chaque message ! 💪","assistant","ASSISTANT • ENGLISH EVERY DAY");
+  }
+}
+function chatMic(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){toast("La reconnaissance vocale n'est pas disponible dans ce navigateur.");return;}
+  const rec=new SR();
+  const from=$("chatFrom").value;
+  rec.lang=from==="fr"?"fr-FR":from==="en"?"en-US":"es-ES";
+  rec.interimResults=false;
+  rec.onresult=ev=>{$("chatInput").value=ev.results[0][0].transcript;};
+  rec.onerror=()=>toast("Le micro n'a pas capté de phrase.");
+  try{rec.start();toast("🎙 J'écoute…");}catch(e){}
+}
+
+/* ---------- Initialisation ---------- */
+document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>showPage(b.getAttribute("data-page"))));
+$("scenarioLang").addEventListener("change",renderScenario);
+$("chatInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();sendChat();}});
+$("practiceAnswer").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();checkPractice();}});
+$("dictQuery").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();searchDict();}});
+$("dayCount").textContent=dayOfYear();
+renderCategories();
+renderFavorites();
+renderHistory();
+updateStats();
+selectScenario("depanneur");
+</script>
+</body>
+</html>
